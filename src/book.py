@@ -1,6 +1,14 @@
 import os
 import re
 import pypandoc
+import random
+from typing import List, TypedDict
+
+
+class ChunkContext(TypedDict):
+    chunk: str
+    previous_chunk: str
+    after_chunk: str
 
 
 class Book:
@@ -61,16 +69,36 @@ class Book:
                 chunk = ""
                 chunk_len = 0
 
-    def get_random_chunks(self, number_of: int):
+    def get_random_chunks(self, number_of: int) -> List[ChunkContext]:
         """
-        Get a random sample of chunks from the book.
+        Get random chunks from the book with their surrounding context.
 
         Args:
             number_of (int): Number of random chunks to return.
 
         Returns:
-            list: List of random chunks.
+            List[ChunkContext]: List of dictionaries containing chunks and their context.
+                               Each dictionary has keys 'chunk', 'previous_chunk', and 'after_chunk'.
         """
-        import random
 
-        return random.sample(self.chunks, number_of)
+        # Create a list of all valid indexes
+        all_indexes = list(range(len(self.chunks)))
+
+        # Make sure we don't request more chunks than available
+        number_to_sample = min(number_of, len(all_indexes))
+
+        # Return random indexes
+        indexes = random.sample(all_indexes, number_to_sample)
+
+        chunks_objs: List[ChunkContext] = []
+
+        for index in indexes:
+            chunk_obj: ChunkContext = {
+                "chunk": self.chunks[index],
+                "previous_chunk": self.chunks[index - 1] if index > 0 else "",
+                "after_chunk": self.chunks[index + 1]
+                if index < len(self.chunks) - 1
+                else "",
+            }
+            chunks_objs.append(chunk_obj)
+        return chunks_objs
