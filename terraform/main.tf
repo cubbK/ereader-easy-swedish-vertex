@@ -17,6 +17,7 @@ resource "google_bigquery_table" "experiments" {
     { name = "prompt_version", type = "STRING",    mode = "NULLABLE" },
     { name = "input_text",     type = "STRING",    mode = "NULLABLE" },
     { name = "output_text",    type = "STRING",    mode = "NULLABLE" },
+    { name = "suggestion",    type = "STRING",    mode = "NULLABLE" },
     { name = "model_used",     type = "STRING",    mode = "NULLABLE" }
   ])
 }

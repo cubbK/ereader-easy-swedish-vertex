@@ -1,18 +1,13 @@
+from typing import Optional
 from vertexai.generative_models import GenerativeModel, SafetySetting
 
 
 def promt_it(
     text: str,
     model_name: str = "gemini-1.5-pro-002",
-    generation_config: dict[str, float] = {
-        "max_output_tokens": 8192,
-        "temperature": 1,
-        "top_p": 0.95,
-    },
+    generation_config: dict[str, float] = {},
 ):
-    model = GenerativeModel(
-        model_name,
-    )
+    model = GenerativeModel(model_name)
 
     safety_settings = [
         SafetySetting(
@@ -33,11 +28,9 @@ def promt_it(
         ),
     ]
 
-    chat = model.start_chat()
-
-    message = chat.send_message(
-        [text],
+    response = model.generate_content(
+        text,
         generation_config=generation_config,
         safety_settings=safety_settings,
     )
-    return message
+    return response
