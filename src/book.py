@@ -60,3 +60,17 @@ class Book:
                 self.chunks.append(chunk)
                 chunk = ""
                 chunk_len = 0
+
+    def get_random_chunks(self, number_of: int):
+        """
+        Get a random sample of chunks from the book.
+
+        Args:
+            number_of (int): Number of random chunks to return.
+
+        Returns:
+            list: List of random chunks.
+        """
+        import random
+
+        return random.sample(self.chunks, number_of)
