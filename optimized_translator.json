@@ -1,0 +1,47 @@
+{
+  "english_to_easy": {
+    "traces": [],
+    "train": [],
+    "demos": [],
+    "signature": {
+      "instructions": "Given the fields `english`, produce the fields `easy_english`.",
+      "fields": [
+        {
+          "prefix": "English:",
+          "description": "${english}"
+        },
+        {
+          "prefix": "Easy English:",
+          "description": "${easy_english}"
+        }
+      ]
+    },
+    "lm": null
+  },
+  "easy_to_swedish": {
+    "traces": [],
+    "train": [],
+    "demos": [],
+    "signature": {
+      "instructions": "You are a professional translator specializing in converting simplified English text into Swedish.  Given the field `easy_english` containing text in simplified English, produce the field `swedish` containing the equivalent text accurately translated into Swedish.  Maintain the original meaning and tone of the input text while ensuring the Swedish translation is grammatically correct and natural-sounding.",
+      "fields": [
+        {
+          "prefix": "Easy English:",
+          "description": "${easy_english}"
+        },
+        {
+          "prefix": "Swedish:",
+          "description": "${swedish}"
+        }
+      ]
+    },
+    "lm": null
+  },
+  "metadata": {
+    "dependency_versions": {
+      "python": "3.11",
+      "dspy": "2.6.18",
+      "cloudpickle": "3.1"
+    }
+  }
+}
