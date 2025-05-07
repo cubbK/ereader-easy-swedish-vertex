@@ -1,6 +1,6 @@
 import dspy
 from src.dspy.metric import TranslationMetric
-from src.dspy.translator import EnglishToSwedishTranslator, translator
+from src.dspy.translator import translator
 from src.dspy.evaluator import trainset
 
 
@@ -20,7 +20,7 @@ def optimize_translator():
         trainset=trainset,
         max_bootstrapped_demos=0,  # ZERO FEW-SHOT EXAMPLES
         max_labeled_demos=0,  # ZERO FEW-SHOT EXAMPLES
-        requires_permission_to_run=True,
+        requires_permission_to_run=False,
     )
 
     return zeroshot_optimized_program

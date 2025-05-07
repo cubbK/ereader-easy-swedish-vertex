@@ -5,7 +5,7 @@ from vertexai.generative_models import GenerativeModel, SafetySetting
 class LLM:
     def __init__(self):
         vertexai.init(
-            project="dan-ml-learn-5-b42c",
+            project="dan-ml-learn-6-ffaf",
             location="us-central1",
             api_endpoint="aiplatform.googleapis.com",
         )

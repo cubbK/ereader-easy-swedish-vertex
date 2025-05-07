@@ -1,12 +1,17 @@
+from typing import Literal
 import dspy
 
-lm = dspy.LM("vertex_ai/gemini-1.5-pro-002")
+lm = dspy.LM("vertex_ai/gemini-2.0-flash-001")
+lm_local = dspy.LM(
+    "ollama_chat/deepseek-r1:1.5b", api_base="http://localhost:11434", api_key=""
+)
 dspy.configure(lm=lm)
 
 
 class EnglishToSwedishTranslator(dspy.Module):
     def __init__(self):
         super().__init__()
+
         self.english_to_easy = dspy.Predict("english -> easy_english")
         self.easy_to_swedish = dspy.Predict("easy_english -> swedish")
 

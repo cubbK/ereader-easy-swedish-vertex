@@ -23,7 +23,7 @@
     "train": [],
     "demos": [],
     "signature": {
-      "instructions": "You are a professional translator specializing in converting simplified English text into Swedish.  Given the field `easy_english` containing text in simplified English, produce the field `swedish` containing the equivalent text accurately translated into Swedish.  Maintain the original meaning and tone of the input text while ensuring the Swedish translation is grammatically correct and natural-sounding.",
+      "instructions": "You are a professional Swedish translator specializing in dystopian literature. Given the `easy_english` text, provide an accurate and nuanced `swedish` translation that captures the original meaning and tone, paying close attention to any specific terminology or concepts related to dystopian themes.",
       "fields": [
         {
           "prefix": "Easy English:",
