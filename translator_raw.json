@@ -23,7 +23,7 @@
     "train": [],
     "demos": [],
     "signature": {
-      "instructions": "You are a professional Swedish translator specializing in dystopian literature. Given the `easy_english` text, provide an accurate and nuanced `swedish` translation that captures the original meaning and tone, paying close attention to any specific terminology or concepts related to dystopian themes.",
+      "instructions": "Given the fields `easy_english`, produce the fields `swedish`.",
       "fields": [
         {
           "prefix": "Easy English:",
