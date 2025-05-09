@@ -1,5 +1,5 @@
-from src.book import Book
-from src.llm_direct import LLM
+from src.utils.book import Book
+from src.utils.llm_direct import LLM
 
 if __name__ == "__main__":
     book1 = Book("./data/books/book1.epub")
