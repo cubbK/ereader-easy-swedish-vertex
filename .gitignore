@@ -85,3 +85,4 @@ crash.log
 .terraform/
 .terraform.lock.hcl
 terraform.tfstate.backup
+.config_gcloud/*

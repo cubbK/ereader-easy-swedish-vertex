@@ -7,7 +7,6 @@ from src.dspy.metric import TranslationMetric
 from src.dspy.optimization_miprov2 import optimize_translator, translator
 from src.dspy.evaluator import trainset
 
-
 if __name__ == "__main__":
     aiplatform.init(
         experiment="experiment1", project="dan-ml-learn-6-ffaf", location="us-central1"

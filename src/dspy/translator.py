@@ -1,7 +1,10 @@
 from typing import Literal
 import dspy
 
-lm = dspy.LM("vertex_ai/gemini-2.0-flash-001", cache=False)
+lm = dspy.LM(
+    "vertex_ai/gemini-2.0-flash-001",
+    cache=False,
+)
 lm_local = dspy.LM(
     "ollama_chat/deepseek-r1:1.5b",
     api_base="http://localhost:11434",

@@ -3,6 +3,10 @@ import dspy
 from src.dspy.metric import TranslationMetric
 from src.dspy.translator import translator
 from src.dspy.evaluator import trainset as trainset_input
+import subprocess
+
+print("Current service account:")
+subprocess.run(["gcloud", "auth", "list"], check=True)
 
 
 #
