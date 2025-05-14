@@ -4,8 +4,11 @@ import dspy
 from google.cloud import aiplatform
 
 from src.dspy.metric import TranslationMetric
-from src.dspy.optimization_miprov2 import optimize_translator, translator
+from src.dspy.optimization_miprov2 import optimize_translator
 from src.dspy.evaluator import trainset
+from src.utils.secret import save_sa_key_to_file
+
+save_sa_key_to_file()
 
 if __name__ == "__main__":
     aiplatform.init(

@@ -1,15 +1,17 @@
 from typing import Literal
 import dspy
+from google.cloud import aiplatform
+
+
+aiplatform.init(
+    experiment="experiment1", project="dan-ml-learn-6-ffaf", location="us-central1"
+)
 
 lm = dspy.LM(
     "vertex_ai/gemini-2.0-flash-001",
     cache=False,
 )
-lm_local = dspy.LM(
-    "ollama_chat/deepseek-r1:1.5b",
-    api_base="http://localhost:11434",
-    api_key="",
-)
+
 dspy.configure(lm=lm)
 
 

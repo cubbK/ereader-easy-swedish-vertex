@@ -1,9 +1,5 @@
 from google.cloud import aiplatform
 
-from utils.save_sa_key_as_adc_file import save_sa_key_as_adc_file
-
-
-save_sa_key_as_adc_file(project_id="dan-ml-learn-6-ffaf")
 
 # Initialize Vertex AI with staging bucket
 aiplatform.init(
