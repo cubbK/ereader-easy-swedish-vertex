@@ -7,6 +7,7 @@ from src.dspy.metric import TranslationMetric
 from src.dspy.optimization_miprov2 import optimize_translator
 from src.dspy.evaluator import trainset
 from src.utils.secret import save_sa_key_to_file
+from src.utils.storage import upload_to_gcs
 
 save_sa_key_to_file()
 
@@ -31,6 +32,13 @@ if __name__ == "__main__":
 
     optimized = optimize_translator(
         trainset=params["trainset"], auto=params["auto"], metric=params["metric"]
+    )
+
+    optimized.save("translator_optimized.json")
+
+    upload_to_gcs(
+        local_file_path="translator_optimized.json",
+        gcs_uri=f"gs://dan-ml-learn-6-ffaf-experiments/experiment1/{run_name}.json",
     )
 
     test_example = "Folly, folly, his heart kept saying: conscious, gratuitous, suicidal folly. Of all the crimes that a Party member could commit, this one was the least possible to conceal. Actually the idea had first floated into his head in the form of a vision, of the glass paperweight mirrored by the surface of the gateleg table. As he had foreseen, Mr Charrington had made no difficulty about letting the room. He was obviously glad of the few dollars that it would bring him. Nor did he seem shocked or become offensively knowing when it was made clear that Winston wanted the room for the purpose of a love-affair. Instead he looked into the middle distance and spoke in generalities, with so delicate an air as to give the impression that he had become partly invisible. Privacy, he said, was a very valuable thing. Everyone wanted a place where they could be alone occasionally. And when they had such a place, it was only common courtesy in anyone else who knew of it to keep his knowledge to himself. He even, seeming almost to fade out of existence as he did so, added that there were two entries to the house, one of them through the back yard, which gave on an alley."

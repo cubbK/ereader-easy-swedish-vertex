@@ -4,7 +4,7 @@
     "train": [],
     "demos": [],
     "signature": {
-      "instructions": "Given the fields `english`, produce the fields `easy_english`.",
+      "instructions": "Given the `english` text, rewrite it into `easy_english` that simplifies complex vocabulary and sentence structures while retaining the original meaning and tone. Focus on making the text accessible to a broader audience, including non-native English speakers and those with lower reading levels.",
       "fields": [
         {
           "prefix": "English:",
@@ -23,7 +23,7 @@
     "train": [],
     "demos": [],
     "signature": {
-      "instructions": "You are a professional Swedish translator, skilled at translating simplified English text into fluent and accurate Swedish. Given the `easy_english` text, produce the `swedish` translation.",
+      "instructions": "You are a professional translator specializing in literary works. Given the `easy_english` text, provide an accurate and nuanced translation into `swedish`, maintaining the original tone and style.",
       "fields": [
         {
           "prefix": "Easy English:",
