@@ -23,7 +23,7 @@
     "train": [],
     "demos": [],
     "signature": {
-      "instructions": "You are a professional translator specializing in translating simplified English into Swedish. Given the `easy_english` text, produce a fluent and accurate `swedish` translation.",
+      "instructions": "Given the fields `easy_english`, produce the fields `swedish`.",
       "fields": [
         {
           "prefix": "Easy English:",

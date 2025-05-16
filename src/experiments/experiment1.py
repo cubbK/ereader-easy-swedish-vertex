@@ -5,11 +5,12 @@ from google.cloud import aiplatform
 
 from src.dspy.metric import TranslationMetric
 from src.dspy.optimization_miprov2 import optimize_translator
-from src.dspy.evaluator import trainset
+from src.dspy.evaluator import trainset, evaluator_dataset
 from src.utils.secret import save_sa_key_to_file
 from src.utils.storage import upload_to_gcs
 from src.utils.log_to_bigquery import log_to_bigquery
 from src.utils.upgrade_best_prompt import upgrade_best_prompt
+from src.utils.book import Book
 
 save_sa_key_to_file()
 
@@ -22,7 +23,18 @@ if __name__ == "__main__":
 
     aiplatform.start_run(run=run_name)
 
-    params = {"trainset": trainset, "auto": "light", "metric": TranslationMetric()}
+    book1 = Book("./data/books/book1.epub")
+    book1_chunks = book1.get_random_chunks(15)
+    book1_examples = [dspy.Example(english=chunk["chunk"]) for chunk in book1_chunks]
+
+    book1_chunks_score = book1.get_random_chunks(15)
+    book1_examples_score = [
+        dspy.Example(english=chunk["chunk"]) for chunk in book1_chunks_score
+    ]
+
+    trainset_all = [*trainset, *book1_examples]
+
+    params = {"trainset": trainset_all, "auto": "light", "metric": TranslationMetric()}
 
     params_log = {
         "trainset": "trainset_object",
@@ -43,18 +55,23 @@ if __name__ == "__main__":
         gcs_uri=f"gs://dan-ml-learn-6-ffaf-experiments/experiment1/{run_name}.json",
     )
 
-    test_example = "Folly, folly, his heart kept saying: conscious, gratuitous, suicidal folly. Of all the crimes that a Party member could commit, this one was the least possible to conceal. Actually the idea had first floated into his head in the form of a vision, of the glass paperweight mirrored by the surface of the gateleg table. As he had foreseen, Mr Charrington had made no difficulty about letting the room. He was obviously glad of the few dollars that it would bring him. Nor did he seem shocked or become offensively knowing when it was made clear that Winston wanted the room for the purpose of a love-affair. Instead he looked into the middle distance and spoke in generalities, with so delicate an air as to give the impression that he had become partly invisible. Privacy, he said, was a very valuable thing. Everyone wanted a place where they could be alone occasionally. And when they had such a place, it was only common courtesy in anyone else who knew of it to keep his knowledge to himself. He even, seeming almost to fade out of existence as he did so, added that there were two entries to the house, one of them through the back yard, which gave on an alley."
+    evaluator_total_dataset = [*evaluator_dataset, *book1_examples_score]
+    score_total = 0
+    for example in evaluator_total_dataset:
+        print(f"Evaluating example: {example}")
 
-    optimized_result = optimized(test_example)
+        optimized_result = optimized(example)
 
-    score = params["metric"](dspy.Example(english=test_example), optimized_result)
+        score = params["metric"](dspy.Example(english=example), optimized_result)
 
-    aiplatform.log_time_series_metrics({"score": score})
+        aiplatform.log_time_series_metrics({"score": score})
+        score_total += score
 
+    score_total /= len(evaluator_total_dataset)
     log_to_bigquery(
         row={
             "experiment_id": run_name,
-            "score": score,
+            "score": score_total,
             "inserted_at": datetime.datetime.now(datetime.timezone.utc).isoformat(),
         },
         table_id="dan-ml-learn-6-ffaf.experiment1.experiment_scores",

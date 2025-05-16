@@ -119,6 +119,121 @@ trainset = [
     ).with_inputs("english"),
 ]
 
+evaluator_dataset = [
+    dspy.Example(
+        english="""Mary did not know what “Wuthering” meant until she listened, and then she understood. It must mean that the wind was blowing through the trees and the bushes and the heather. It was a wild, dreary-sounding wind. It was making a singular, low, rushing sound.
+“It’s a wild place,” she said. “They live in such a big, grand house, and there seems no one in it but that queer man and the cook and the housemaid. It’s like a dream.”"""
+    ),
+    dspy.Example(
+        english="""All children, except one, grow up. They soon know that they will grow up, and the way Wendy knew was this. One day when she was two years old she was playing in a garden, and she plucked another flower and ran with it to her mother. I suppose she must have looked rather delightful, for Mrs. Darling put her hand to her heart and cried, “Oh, why can’t you remain like this forever!”"""
+    ),
+    dspy.Example(
+        english="""I resisted all the way: a new thing for me; and a circumstance which greatly strengthened the bad opinion Bessie and Miss Abbot were disposed to entertain of me. The fact is, I was a trifle beside myself; or rather out of myself, as the French would say: I was conscious that a moment’s mutiny had already rendered me liable to strange penalties, and like any other rebel slave, I felt resolved, in my desperation, to go all lengths."""
+    ),
+    dspy.Example(
+        english="""Learn from me, if not by my precepts, at least by my example, how dangerous is the acquirement of knowledge, and how much happier that man is who believes his native town to be the world, than he who aspires to become greater than his nature will allow."""
+    ),
+    dspy.Example(
+        english="""The telescreen received and transmitted simultaneously. Any sound that Winston made, above the level of a very low whisper, would be picked up by it; moreover, so long as he remained within the field of vision which the metal plaque commanded, he could be seen as well as heard."""
+    ),
+    dspy.Example(
+        english="""FAHRENHEIT 451 by RAY BRADBURY.
+
+ 
+
+{{This digitised version was scanned and proof-read by Eva Looshan. The
+source was the 1976 Panther paperback.
+
+ 
+
+I have endeavoured to reproduce the book as exactly as possible. What I
+haven’t done is consistently indicate italics, because they weren’t
+picked up by my OCR program. In a few cases, where I referred back to
+the printed page and noticed italics, I made the correspondeing text all
+upper case. I hope soon to be able to refer again to the text and to
+create a html version, which will include the emphasis the author chose.
+For any other errors, I apologise most profusely.
+
+ 
+
+If you read this book perhaps you will be inspired to duplicate this
+text file and spread it as widely as you can throughout the digital
+world. It is a fitting fate for such a wonderful work, a book which
+deserves to be as famous as its thematic cousins ‘1984’ and ‘Brave New
+World’
+
+ 
+
+Eva Looshan
+
+March 1999}}
+
+ 
+
+––––––––––––––––—
+
+RAY BRADBURY
+
+FAHRENHEIT 451
+
+ 
+
+This one, with gratitude, is for DON CONGDON.
+
+ 
+
+FAHRENHEIT 451:
+
+The temperature at which book-paper catches fire and burns
+
+PART I
+
+IT WAS A PLEASURE TO BURN
+
+IT was a special pleasure to see things eaten, to see things blackened
+and changed. With the brass nozzle in his fists, with this great python
+spitting its venomous kerosene upon the world, the blood pounded in his
+head, and his hands were the hands of some amazing conductor playing all
+the symphonies of blazing and burning to bring down the tatters and
+charcoal ruins of history. With his symbolic helmet numbered 451 on his
+stolid head, and his eyes all orange flame with the thought of what came
+next, he flicked the igniter and the house jumped up in a gorging fire
+that burned the evening sky red and yellow and black. He strode in a
+swarm of fireflies. He wanted above all, like the old joke, to shove a
+marshmallow on a stick in the furnace, while the flapping pigeon-winged
+books died on the porch and lawn of the house."""
+    ),
+    dspy.Example(
+        english="""They walked in the warm-cool blowing night on the silvered pavement and
+there was the faintest breath of fresh apricots and strawberries in the
+air, and he looked around and realized this was quite impossible, so
+late in the year.
+
+There was only the girl walking with him now, her face bright as snow in
+the moonlight, and he knew she was working his questions around, seeking
+the best answers she could possibly give.
+
+“Well,” she said, “I’m seventeen and I’m crazy. My uncle says the two
+always go together. When people ask your age, he said, always say
+seventeen and insane. Isn’t this a nice time of night to walk? I like to
+smell things and look at things, and sometimes stay up all night,
+walking, and watch the sun rise.”
+
+They walked on again in silence and finally she said, thoughtfully, “You
+know, I’m not afraid of you at all.”
+
+He was surprised. “Why should you be?”
+
+“So many people are. Afraid of firemen, I mean. But you’re just a man,
+after all…”
+
+He saw himself in her eyes, suspended in two shining drops of bright
+water, himself dark and tiny, in fine detail, the lines about his mouth,
+everything there, as if her eyes were two miraculous bits of violet
+amber that might capture and hold him intact."""
+    ),
+]
+
 for example in trainset:
     example.with_inputs("english")
 
