@@ -8,6 +8,7 @@ from src.dspy.optimization_miprov2 import optimize_translator
 from src.dspy.evaluator import trainset
 from src.utils.secret import save_sa_key_to_file
 from src.utils.storage import upload_to_gcs
+from src.utils.log_to_bigquery import log_to_bigquery
 
 save_sa_key_to_file()
 
@@ -48,5 +49,14 @@ if __name__ == "__main__":
     score = params["metric"](dspy.Example(english=test_example), optimized_result)
 
     aiplatform.log_time_series_metrics({"score": score})
+
+    log_to_bigquery(
+        row={
+            "experiment_id": run_name,
+            "score": score,
+            "inserted_at": datetime.datetime.now(datetime.timezone.utc).isoformat(),
+        },
+        table_id="dan-ml-learn-6-ffaf.experiment1.experiment_scores",
+    )
 
     aiplatform.end_run()
