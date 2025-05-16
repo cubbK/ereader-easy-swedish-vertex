@@ -9,6 +9,7 @@ from src.dspy.evaluator import trainset
 from src.utils.secret import save_sa_key_to_file
 from src.utils.storage import upload_to_gcs
 from src.utils.log_to_bigquery import log_to_bigquery
+from src.utils.upgrade_best_prompt import upgrade_best_prompt
 
 save_sa_key_to_file()
 
@@ -57,6 +58,15 @@ if __name__ == "__main__":
             "inserted_at": datetime.datetime.now(datetime.timezone.utc).isoformat(),
         },
         table_id="dan-ml-learn-6-ffaf.experiment1.experiment_scores",
+    )
+
+    upgrade_best_prompt(
+        project_id="dan-ml-learn-6-ffaf",
+        dataset_id="experiment1",
+        table_id="experiment_scores",
+        source_bucket_name="dan-ml-learn-6-ffaf-experiments",
+        destination_bucket_name="dan-ml-learn-6-ffaf-experiments",
+        destination_blob_name="experiment1/best_prompt_latest.json",
     )
 
     aiplatform.end_run()
