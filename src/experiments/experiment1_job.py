@@ -31,7 +31,7 @@ job = aiplatform.CustomJob(
 )
 
 job.run(
-    service_account="my-service-account@dan-ml-learn-6-ffaf.iam.gserviceaccount.com",
+    service_account="my-service-account2@dan-ml-learn-6-ffaf.iam.gserviceaccount.com",
     enable_web_access=True,
 )
 

@@ -12,9 +12,15 @@ from src.utils.log_to_bigquery import log_to_bigquery
 from src.utils.upgrade_best_prompt import upgrade_best_prompt
 from src.utils.book import Book
 
-save_sa_key_to_file()
 
-if __name__ == "__main__":
+def run_experiment(
+    book_path: str = "./data/books/book1.epub", nr_book_chunks: int = 15
+):
+    """
+    Main function to run the experiment.
+    Initializes the AI Platform, sets up the run, and performs the optimization and evaluation.
+    """
+    save_sa_key_to_file()
     aiplatform.init(
         experiment="experiment1", project="dan-ml-learn-6-ffaf", location="us-central1"
     )
@@ -24,10 +30,10 @@ if __name__ == "__main__":
     aiplatform.start_run(run=run_name)
 
     book1 = Book("./data/books/book1.epub")
-    book1_chunks = book1.get_random_chunks(15)
+    book1_chunks = book1.get_random_chunks(nr_book_chunks)
     book1_examples = [dspy.Example(english=chunk["chunk"]) for chunk in book1_chunks]
 
-    book1_chunks_score = book1.get_random_chunks(15)
+    book1_chunks_score = book1.get_random_chunks(nr_book_chunks)
     book1_examples_score = [
         dspy.Example(english=chunk["chunk"]) for chunk in book1_chunks_score
     ]
@@ -87,3 +93,7 @@ if __name__ == "__main__":
     )
 
     aiplatform.end_run()
+
+
+if __name__ == "__main__":
+    run_experiment()
