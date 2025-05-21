@@ -10,7 +10,9 @@ project_id = "dan-ml-learn-6-ffaf"
 pipeline_root_path = "gs://dan-ml-learn-6-ffaf-experiments/experiment1_pipeline_root"
 
 
-@component
+@component(
+    base_image="us-central1-docker.pkg.dev/dan-ml-learn-6-ffaf/ereader-easy-swedish/experiment:latest"
+)
 def experiment_component():
     # Import and run your experiment inside the component
     from src.experiments.experiment1 import run_experiment

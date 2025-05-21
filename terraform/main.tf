@@ -29,7 +29,8 @@ resource "google_project_iam_member" "sa_roles" {
     "roles/firebasevertexai.admin",
     "roles/storage.objectUser",
     "roles/storage.objectViewer",
-    "roles/aiplatform.admin"
+    "roles/aiplatform.admin",
+    "roles/secretmanager.secretAccessor"
   ])
 
   project = "dan-ml-learn-6-ffaf"

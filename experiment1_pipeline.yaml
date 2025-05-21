@@ -37,7 +37,7 @@ deploymentSpec:
           \ *\n\ndef experiment_component():\n    # Import and run your experiment\
           \ inside the component\n    from src.experiments.experiment1 import run_experiment\n\
           \n    run_experiment()\n\n"
-        image: python:3.9
+        image: us-central1-docker.pkg.dev/dan-ml-learn-6-ffaf/ereader-easy-swedish/experiment:latest
 pipelineInfo:
   name: experiment1-pipeline
 root:
