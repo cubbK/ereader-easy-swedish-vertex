@@ -11,16 +11,16 @@ from src.utils.storage import upload_to_gcs
 from src.utils.log_to_bigquery import log_to_bigquery
 from src.utils.upgrade_best_prompt import upgrade_best_prompt
 from src.utils.book import Book
+from google.cloud import storage
 
 
-def run_experiment(
-    book_path: str = "./data/books/book1.epub", nr_book_chunks: int = 15
-):
+def run_experiment(book_src: str, nr_book_chunks: int):
     """
     Main function to run the experiment.
     Initializes the AI Platform, sets up the run, and performs the optimization and evaluation.
     """
     save_sa_key_to_file()
+
     aiplatform.init(
         experiment="experiment1", project="dan-ml-learn-6-ffaf", location="us-central1"
     )
@@ -29,7 +29,7 @@ def run_experiment(
 
     aiplatform.start_run(run=run_name)
 
-    book1 = Book("./data/books/book1.epub")
+    book1 = get_book(book_src)
     book1_chunks = book1.get_random_chunks(nr_book_chunks)
     book1_examples = [dspy.Example(english=chunk["chunk"]) for chunk in book1_chunks]
 
@@ -95,5 +95,22 @@ def run_experiment(
     aiplatform.end_run()
 
 
-if __name__ == "__main__":
-    run_experiment()
+def get_book(book_src: str):
+    """
+    Main function to run the experiment.
+    Initializes the AI Platform, sets up the run, and performs the optimization and evaluation.
+    """
+
+    if book_src.startswith("gs://"):
+        storage_client = storage.Client()
+        bucket_name, blob_name = book_src[5:].split("/", 1)
+        destination_file = "./data/books/book_train.epub"
+        bucket = storage_client.bucket(bucket_name)
+        blob = bucket.blob(blob_name)
+        blob.download_to_filename(destination_file)
+        local_book_path = destination_file
+    else:
+        local_book_path = book_src
+
+    book = Book(local_book_path)
+    return book

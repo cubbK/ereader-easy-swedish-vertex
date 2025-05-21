@@ -1,10 +1,15 @@
 # PIPELINE DEFINITION
 # Name: experiment1-pipeline
 # Inputs:
+#    book_src: str [Default: 'gs://dan-ml-learn-6-ffaf-books/book1.epub']
 #    project_id: str
 components:
   comp-experiment-component:
     executorLabel: exec-experiment-component
+    inputDefinitions:
+      parameters:
+        book_src:
+          parameterType: STRING
 defaultPipelineRoot: gs://dan-ml-learn-6-ffaf-experiments/experiment1_pipeline_root
 deploymentSpec:
   executors:
@@ -34,9 +39,8 @@ deploymentSpec:
 
           '
         - "\nimport kfp\nfrom kfp import dsl\nfrom kfp.dsl import *\nfrom typing import\
-          \ *\n\ndef experiment_component():\n    # Import and run your experiment\
-          \ inside the component\n    from src.experiments.experiment1 import run_experiment\n\
-          \n    run_experiment()\n\n"
+          \ *\n\ndef experiment_component(book_src: str):\n    from src.experiments.experiment1\
+          \ import run_experiment\n\n    run_experiment(book_src, 15)\n\n"
         image: us-central1-docker.pkg.dev/dan-ml-learn-6-ffaf/ereader-easy-swedish/experiment:latest
 pipelineInfo:
   name: experiment1-pipeline
@@ -48,10 +52,18 @@ root:
           enableCache: true
         componentRef:
           name: comp-experiment-component
+        inputs:
+          parameters:
+            book_src:
+              componentInputParameter: book_src
         taskInfo:
           name: experiment-component
   inputDefinitions:
     parameters:
+      book_src:
+        defaultValue: gs://dan-ml-learn-6-ffaf-books/book1.epub
+        isOptional: true
+        parameterType: STRING
       project_id:
         parameterType: STRING
 schemaVersion: 2.1.0

@@ -10,6 +10,19 @@ resource "google_storage_bucket" "data_bucket" {
   uniform_bucket_level_access = true
 }
 
+resource "google_storage_bucket" "data_bucket_2" {
+  name     = "dan-ml-learn-6-ffaf-books"
+  location = "us-central1"
+
+  uniform_bucket_level_access = true
+}
+
+resource "google_storage_bucket_object" "default_book" {
+  name   = "book1.epub"
+  bucket = google_storage_bucket.data_bucket_2.name
+  source = "${path.module}/../data/books/book1.epub"
+}
+
 resource "google_bigquery_dataset" "experiment1" {
   dataset_id = "experiment1"
   location   = "us-central1"
@@ -20,7 +33,6 @@ resource "google_service_account" "my_sa" {
   display_name = "My Service Account2"
 }
 
-# 2. Assign IAM roles to the service account at the project level
 resource "google_project_iam_member" "sa_roles" {
   for_each = toset([
     "roles/aiplatform.serviceAgent",
@@ -30,7 +42,8 @@ resource "google_project_iam_member" "sa_roles" {
     "roles/storage.objectUser",
     "roles/storage.objectViewer",
     "roles/aiplatform.admin",
-    "roles/secretmanager.secretAccessor"
+    "roles/secretmanager.secretAccessor",
+    "roles/aiplatform.pipelineRunner"
   ])
 
   project = "dan-ml-learn-6-ffaf"

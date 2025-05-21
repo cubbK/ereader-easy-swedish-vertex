@@ -13,18 +13,19 @@ pipeline_root_path = "gs://dan-ml-learn-6-ffaf-experiments/experiment1_pipeline_
 @component(
     base_image="us-central1-docker.pkg.dev/dan-ml-learn-6-ffaf/ereader-easy-swedish/experiment:latest"
 )
-def experiment_component():
-    # Import and run your experiment inside the component
+def experiment_component(book_src: str):
     from src.experiments.experiment1 import run_experiment
 
-    run_experiment()
+    run_experiment(book_src, 15)
 
 
 # Define the workflow of the pipeline.
 @kfp.dsl.pipeline(name="experiment1_pipeline", pipeline_root=pipeline_root_path)
-def pipeline(project_id: str):
+def pipeline(
+    project_id: str, book_src: str = "gs://dan-ml-learn-6-ffaf-books/book1.epub"
+):
     print("Running the experiment1 pipeline...")
-    experiment_task = experiment_component()
+    experiment_task = experiment_component(book_src=book_src)
 
 
 if __name__ == "__main__":
