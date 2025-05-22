@@ -18,11 +18,14 @@ uv sync
 Deploy everything to cloud. This is applying terraform, deploying the function and pushing the docker image:
 
 ```bash
+gcloud auth login
+gcloud auth application-default login
 make deploy_all
 ```
 
 Trigger pipeline from local:
 
-```
+```bash
+gcloud auth application-default login
 make trigger_pipeline
 ```
