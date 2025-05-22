@@ -87,3 +87,6 @@ crash.log
 terraform.tfstate.backup
 .config_gcloud/*
 translator_optimized.json
+
+requirements.txt
+experiment1_pipeline.py

@@ -18,6 +18,12 @@ resource "google_storage_bucket" "data_bucket_2" {
 }
 
 resource "google_storage_bucket_object" "default_book" {
+  name   = "experiment1_pipeline/experiment1_pipeline.json"
+  bucket = google_storage_bucket.data_bucket.name
+  source = "${path.module}/../experiment1_pipeline.json"
+}
+
+resource "google_storage_bucket_object" "pipeline_yaml" {
   name   = "book1.epub"
   bucket = google_storage_bucket.data_bucket_2.name
   source = "${path.module}/../data/books/book1.epub"
@@ -43,10 +49,24 @@ resource "google_project_iam_member" "sa_roles" {
     "roles/storage.objectViewer",
     "roles/aiplatform.admin",
     "roles/secretmanager.secretAccessor",
-    "roles/aiplatform.pipelineRunner"
+    "roles/cloudbuild.builds.builder",
+    "roles/eventarc.eventReceiver",
+    "roles/pubsub.publisher"
   ])
 
   project = "dan-ml-learn-6-ffaf"
   role    = each.value
   member  = "serviceAccount:${google_service_account.my_sa.email}"
 }
+
+data "google_project" "project" {
+  project_id = "dan-ml-learn-6-ffaf"
+}
+
+
+resource "google_project_iam_member" "gcs_publish" {
+  project = "dan-ml-learn-6-ffaf"
+  role    = "roles/pubsub.publisher"
+  member  = "serviceAccount:service-${data.google_project.project.number}@gs-project-accounts.iam.gserviceaccount.com"
+}
+

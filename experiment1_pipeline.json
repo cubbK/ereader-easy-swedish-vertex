@@ -1,0 +1,80 @@
+{
+  "components": {
+    "comp-experiment-component": {
+      "executorLabel": "exec-experiment-component",
+      "inputDefinitions": {
+        "parameters": {
+          "book_src": {
+            "parameterType": "STRING"
+          }
+        }
+      }
+    }
+  },
+  "defaultPipelineRoot": "gs://dan-ml-learn-6-ffaf-experiments/experiment1_pipeline_root",
+  "deploymentSpec": {
+    "executors": {
+      "exec-experiment-component": {
+        "container": {
+          "args": [
+            "--executor_input",
+            "{{$}}",
+            "--function_to_execute",
+            "experiment_component"
+          ],
+          "command": [
+            "sh",
+            "-c",
+            "\nif ! [ -x \"$(command -v pip)\" ]; then\n    python3 -m ensurepip || python3 -m ensurepip --user || apt-get install python3-pip\nfi\n\nPIP_DISABLE_PIP_VERSION_CHECK=1 python3 -m pip install --quiet --no-warn-script-location 'kfp==2.13.0' '--no-deps' 'typing-extensions>=3.7.4,<5; python_version<\"3.9\"' && \"$0\" \"$@\"\n",
+            "sh",
+            "-ec",
+            "program_path=$(mktemp -d)\n\nprintf \"%s\" \"$0\" > \"$program_path/ephemeral_component.py\"\n_KFP_RUNTIME=true python3 -m kfp.dsl.executor_main                         --component_module_path                         \"$program_path/ephemeral_component.py\"                         \"$@\"\n",
+            "\nimport kfp\nfrom kfp import dsl\nfrom kfp.dsl import *\nfrom typing import *\n\ndef experiment_component(book_src: str):\n    from src.experiments.experiment1 import run_experiment\n\n    run_experiment(book_src, 15)\n\n"
+          ],
+          "image": "us-central1-docker.pkg.dev/dan-ml-learn-6-ffaf/ereader-easy-swedish/experiment:latest"
+        }
+      }
+    }
+  },
+  "pipelineInfo": {
+    "name": "experiment1-pipeline"
+  },
+  "root": {
+    "dag": {
+      "tasks": {
+        "experiment-component": {
+          "cachingOptions": {
+            "enableCache": true
+          },
+          "componentRef": {
+            "name": "comp-experiment-component"
+          },
+          "inputs": {
+            "parameters": {
+              "book_src": {
+                "componentInputParameter": "book_src"
+              }
+            }
+          },
+          "taskInfo": {
+            "name": "experiment-component"
+          }
+        }
+      }
+    },
+    "inputDefinitions": {
+      "parameters": {
+        "book_src": {
+          "defaultValue": "gs://dan-ml-learn-6-ffaf-books/book1.epub",
+          "isOptional": true,
+          "parameterType": "STRING"
+        },
+        "project_id": {
+          "parameterType": "STRING"
+        }
+      }
+    }
+  },
+  "schemaVersion": "2.1.0",
+  "sdkVersion": "kfp-2.13.0"
+}
