@@ -20,7 +20,7 @@ def trigger_pipeline(cloud_event):
         template_path="gs://dan-ml-learn-6-ffaf-experiments/experiment1_pipeline/experiment1_pipeline.json",
         pipeline_root=pipeline_root_path,
         parameter_values={
-            # "book_src": f"gs://{bucket}/{name}", # IN PROGRESS
+            "book_src": f"gs://{bucket}/{name}",
             "project_id": "dan-ml-learn-6-ffaf",
         },
     )

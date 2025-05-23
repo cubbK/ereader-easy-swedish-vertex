@@ -12,7 +12,7 @@ prepare_function:
 	uv pip compile --output-file=./src/functions/trigger_experiment1_pipeline/requirements.txt ./pyproject.toml
 
 deploy_function: 
-	gcloud functions deploy trigger_experiment1_pipeline --gen2 --runtime=python310 --region=us-central1 --memory=512MB --trigger-event-filters="type=google.cloud.storage.object.v1.finalized" --trigger-event-filters="bucket=dan-ml-learn-6-ffaf-books" --entry-point=trigger_pipeline --source=./src/functions/trigger_experiment1_pipeline --set-env-vars=GOOGLE_PROJECT=dan-ml-learn-6-ffaf --service-account=my-service-account2@dan-ml-learn-6-ffaf.iam.gserviceaccount.com
+	gcloud functions deploy trigger_experiment1_pipeline --gen2 --runtime=python310 --region=us-central1 --memory=512MB --trigger-event-filters="type=google.cloud.storage.object.v1.finalized" --trigger-event-filters="bucket=dan-ml-learn-6-ffaf-books" --entry-point=trigger_pipeline --source=./src/functions/trigger_experiment1_pipeline --set-env-vars=GOOGLE_PROJECT=dan-ml-learn-6-ffaf --service-account=my-service-account2@dan-ml-learn-6-ffaf.iam.gserviceaccount.com && gcloud run services update-traffic trigger-experiment1-pipeline --to-latest --platform=managed --region=us-central1
 
 terraform_apply:
 	cd terraform && terraform init && terraform apply -auto-approve
